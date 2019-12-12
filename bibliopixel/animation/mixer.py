@@ -17,6 +17,27 @@ class Mixer(parallel.Parallel):
     def levels(self):
         return self.mixer.levels
 
+    # todo: remove these horrible hacks to get an animations by index in the mixer
+    @property
+    def animation_index_0(self):
+        return self.animations[0]
+
+    @property
+    def animation_index_1(self):
+        return self.animations[1]
+
+    @property
+    def animation_index_2(self):
+        return self.animations[2]
+
+    @property
+    def animation_index_3(self):
+        return self.animations[3]
+
+    @property
+    def animation_index_4(self):
+        return self.animations[4]
+
     @levels.setter
     def levels(self, levels):
         self.mixer.levels[:] = levels

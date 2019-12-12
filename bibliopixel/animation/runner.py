@@ -1,7 +1,10 @@
 import time
 from enum import IntEnum
+from fractions import Fraction
+
 from .. util import log
 from .. project import attributes, load
+
 
 DEFAULT_FPS = 24
 
@@ -83,7 +86,15 @@ class Runner(object):
 
     @fps.setter
     def fps(self, fps):
-        self.sleep_time = 1 / fps
+        if isinstance(fps, Fraction):
+            # handle fraction coming from midi change_control - converts fraction to int
+            temp = int(fps.numerator * 60 / float(fps.denominator))
+            if temp == 0:
+                temp = 1
+            self.sleep_time = 1 / temp
+            # var_dump(self.sleep_time)
+        else:
+            self.sleep_time = 1 / fps
 
     def compute_state(self, cur_step, state):
         if self.seconds:

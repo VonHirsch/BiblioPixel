@@ -1,4 +1,6 @@
 import contextlib, threading, time
+from fractions import Fraction
+
 from . import adaptor, animation_threading, runner
 from .. util import deprecated, log
 from .. colors import palettes, legacy_palette
@@ -73,6 +75,33 @@ class Animation(object):
         self.time = project.clock.time
         self.runner.set_project(project)
         self.threading.set_project(project)
+
+    @property
+    def fps(self):
+        return 1 / self.sleep_time
+
+    @fps.setter
+    def fps(self, fps):
+        if isinstance(fps, Fraction):
+            # handle fraction coming from midi change_control - converts fraction to int
+            temp = int(fps.numerator * 60 / float(fps.denominator))
+            if temp == 0:
+                temp = 1
+            self.sleep_time = 1 / temp
+            #var_dump(self.sleep_time)
+        else:
+            self.sleep_time = 1 / fps
+
+    @property
+    def brightness(self):
+        return self.brightness
+
+    @brightness.setter
+    def brightness(self, brightness):
+        if isinstance(brightness, Fraction):
+            # handle fraction coming from midi change_control - converts fraction to int
+            temp = int(brightness.numerator * 255 / float(brightness.denominator))
+            self.layout.drivers[0].set_brightness(temp)
 
     @property
     def _led(self):
