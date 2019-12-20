@@ -100,6 +100,11 @@ class _AnimationList:
     def __getitem__(self, i):
         return self._animations[self._index(i)]
 
+    def __setitem__(self, instance, value):
+        print("break")
+        self._animations[instance] = value
+        #self.__dict__[instance] = value
+
     def __getattr__(self, i):
         return self[i]
 

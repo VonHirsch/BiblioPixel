@@ -17,7 +17,7 @@ class Parallel(collection.Collection):
         if detach:
             self.detach(overlay)
 
-    def generate_frames(self):
+    def generate_frames(self, clean_layout=True):
         self._frames = [[a.generate_frames(), True] for a in self.animations]
         return super().generate_frames()
 
