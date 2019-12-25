@@ -125,7 +125,8 @@ class ScrollTextHolidayRand(Matrix):
     def __init__(self, layout, text='ScrollText', xPos=0, yPos=0,
                  font_name=font.default_font, font_scale=1, **kwds):
         super().__init__(layout, **kwds)
-        self._text = text.replace("<name>", random.choice(self.name_list))
+        self._initial_text = text
+        self._text = text
         self.xPos = xPos
         self.orig_xPos = xPos
         self.yPos = yPos
@@ -135,6 +136,7 @@ class ScrollTextHolidayRand(Matrix):
 
     def pre_run(self):
         self.xPos = self.orig_xPos
+        self._text = self._initial_text.replace("<name>", random.choice(self.name_list))
 
     def step(self, amt=1):
         self.layout.all_off()
